@@ -7,14 +7,14 @@ import mate.academy.bookstore.dto.CreateBookRequestDto;
 import mate.academy.bookstore.exception.EntityNotFoundException;
 import mate.academy.bookstore.mapper.BookMapper;
 import mate.academy.bookstore.model.Book;
-import mate.academy.bookstore.repository.BookRepository;
+import mate.academy.bookstore.repository.JpaBookRepository;
 import mate.academy.bookstore.service.BookService;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
-    private final BookRepository bookRepository;
+    private final JpaBookRepository bookRepository;
     private final BookMapper bookMapper;
 
     @Override
