@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: populate-books-table-with-data
+      author: Krasnov-Maksim
+      changes:
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: "Title"
+              - column:
+                  name: author
+                  value: "Author"
+              - column:
+                  name: isbn
+                  value: "978-1234567890"
+              - column:
+                  name: price
+                  value: "19.99"
+              - column:
+                  name: description
+                  value: "description"
+              - column:
+                  name: cover_image
+                  value: "https://example.com/cover-image.jpg"
