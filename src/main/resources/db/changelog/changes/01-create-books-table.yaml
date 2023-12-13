@@ -29,7 +29,7 @@ databaseChangeLog:
                   type: varchar(255)
               - column:
                   name: price
-                  type: DECIMAL(38)
+                  type: decimal(10,2)
                   constraints:
                     nullable: false
               - column:
