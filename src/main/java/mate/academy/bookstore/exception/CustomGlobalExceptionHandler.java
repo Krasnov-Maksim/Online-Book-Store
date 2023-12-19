@@ -1,5 +1,6 @@
 package mate.academy.bookstore.exception;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,14 +26,15 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
             WebRequest request
     ) {
         Map<String, Object> body = new LinkedHashMap<>();
-        List<Object> errors = ex.getBindingResult().getAllErrors().stream()
+        List<String> errors = ex.getBindingResult().getAllErrors().stream()
                 .map(this::getErrorMessage)
                 .toList();
         body.put("errors", errors);
+        body.put("timestamp", LocalDateTime.now());
         return new ResponseEntity<>(body, headers, status);
     }
 
-    private Object getErrorMessage(ObjectError e) {
+    private String getErrorMessage(ObjectError e) {
         if (e instanceof FieldError) {
             String field = ((FieldError) e).getField();
             String message = e.getDefaultMessage();
@@ -44,8 +46,11 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<Object> handleEntityNotFoundException(
             EntityNotFoundException e) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("message", e.getMessage());
+        body.put("timestamp", LocalDateTime.now());
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(e.getMessage());
+                .body(body);
     }
 }

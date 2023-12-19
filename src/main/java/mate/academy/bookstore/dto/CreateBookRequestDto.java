@@ -10,10 +10,12 @@ public record CreateBookRequestDto(
         String title,
         @NotBlank
         String author,
+        @NotBlank
         String isbn,
         @NotNull
         @PositiveOrZero
         BigDecimal price,
+        @NotBlank
         String description,
         String coverImage) {
 }
