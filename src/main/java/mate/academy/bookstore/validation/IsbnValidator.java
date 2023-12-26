@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 
 public class IsbnValidator implements ConstraintValidator<Isbn, String> {
     private static final Pattern NOT_DIGITS = Pattern.compile("[\\D]");
-    private static final int Isbn10Length = 10;
-    private static final int Isbn13Length = 13;
+    private static final int ISBN_10_LENGTH = 10;
+    private static final int ISBN_13_LENGTH = 13;
 
     @Override
     public boolean isValid(String isbn, ConstraintValidatorContext context) {
@@ -15,7 +15,7 @@ public class IsbnValidator implements ConstraintValidator<Isbn, String> {
             return true;
         }
         String digitsOnly = NOT_DIGITS.matcher(isbn).replaceAll("");
-        if (!(digitsOnly.length() == Isbn10Length || digitsOnly.length() == Isbn13Length)) {
+        if (!(digitsOnly.length() == ISBN_10_LENGTH || digitsOnly.length() == ISBN_13_LENGTH)) {
             return false;
         }
         return isValidChecksum(digitsOnly);
@@ -24,8 +24,8 @@ public class IsbnValidator implements ConstraintValidator<Isbn, String> {
     private boolean isValidChecksum(String isbn) {
         final int length = isbn.length();
         return switch (length) {
-            case Isbn10Length -> checkChecksumIsbn10(isbn);
-            case Isbn13Length -> checkChecksumIsbn13(isbn);
+            case ISBN_10_LENGTH -> checkChecksumIsbn10(isbn);
+            case ISBN_13_LENGTH -> checkChecksumIsbn13(isbn);
             default -> false;
         };
     }
@@ -37,9 +37,9 @@ public class IsbnValidator implements ConstraintValidator<Isbn, String> {
     private boolean checkChecksumIsbn10(String isbn) {
         int sum = 0;
         for (int i = 0; i < isbn.length() - 1; i++) {
-            sum += (isbn.charAt(i) - '0') * (Isbn10Length - i);
+            sum += (isbn.charAt(i) - '0') * (ISBN_10_LENGTH - i);
         }
-        sum += isbn.charAt(9) == 'X' ? Isbn10Length : isbn.charAt(9) - '0';
+        sum += isbn.charAt(9) == 'X' ? ISBN_10_LENGTH : isbn.charAt(9) - '0';
         return (sum % 11) == 0;
     }
 
@@ -52,6 +52,6 @@ public class IsbnValidator implements ConstraintValidator<Isbn, String> {
         for (int i = 0; i < isbn.length(); i++) {
             sum += (isbn.charAt(i) - '0') * (i % 2 == 0 ? 1 : 3);
         }
-        return (sum % Isbn10Length) == 0;
+        return (sum % ISBN_10_LENGTH) == 0;
     }
 }
