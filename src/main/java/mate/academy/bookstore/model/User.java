@@ -26,4 +26,6 @@ public class User {
     @Column(nullable = false)
     private String lastName;
     private String shippingAddress;
+    @Column(nullable = false)
+    private boolean isDeleted = false;
 }
