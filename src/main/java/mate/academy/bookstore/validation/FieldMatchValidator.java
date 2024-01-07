@@ -24,7 +24,7 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
             Field secondField = value.getClass().getDeclaredField(secondFieldName);
             secondField.setAccessible(true);
             final Object secondValue = secondField.get(value);
-            return Objects.equals(firstField, secondField);
+            return Objects.equals(firstValue, secondValue);
         } catch (final Exception e) {
             throw new RuntimeException(e);
         }
