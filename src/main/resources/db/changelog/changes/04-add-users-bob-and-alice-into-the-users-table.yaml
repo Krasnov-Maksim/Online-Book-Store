@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-users-bob-and-alice-into-the-users-table
+      author: Krasnov-Maksim
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: "bob@mail.com"
+              - column:
+                  name: password
+                  value: "bobPassword"
+              - column:
+                  name: first_name
+                  value: "Bob"
+              - column:
+                  name: last_name
+                  value: "Java"
+              - column:
+                  name: shipping_address
+                  value: "Bob Address"
+              - column:
+                  name: is_deleted
+                  value: 0
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: "alice@mail.com"
+              - column:
+                  name: password
+                  value: "alicePassword"
+              - column:
+                  name: first_name
+                  value: "Alice"
+              - column:
+                  name: last_name
+                  value: "Fox"
+              - column:
+                  name: shipping_address
+                  value: "Alice Address"
+              - column:
+                  name: is_deleted
+                  value: 1
