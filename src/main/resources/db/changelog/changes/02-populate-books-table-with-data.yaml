@@ -8,19 +8,19 @@ databaseChangeLog:
             columns:
               - column:
                   name: title
-                  value: "Title"
+                  value: "Title 1"
               - column:
                   name: author
-                  value: "Author"
+                  value: "Author 1"
               - column:
                   name: isbn
-                  value: "978-1234567890"
+                  value: "978-3-16-148410-0"
               - column:
                   name: price
                   value: "19.99"
               - column:
                   name: description
-                  value: "description"
+                  value: "description 1"
               - column:
                   name: cover_image
-                  value: "https://example.com/cover-image.jpg"
+                  value: "https://example.com/cover-image-1.jpg"

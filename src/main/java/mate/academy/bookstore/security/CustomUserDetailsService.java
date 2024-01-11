@@ -18,5 +18,4 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Can't find user by email"));
     }
-
 }

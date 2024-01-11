@@ -1,17 +1,15 @@
 databaseChangeLog:
   - changeSet:
-      id: create-admin-delete-other-users
+      id: create-admin
       author: Krasnov-Maksim
       comment: admin password 12345678
       changes:
-        - delete:
-            tableName: users
         - insert:
             tableName: users
             columns:
               - column:
                   name: email
-                  value: "admin@email.com"
+                  value: "admin@mail.com"
               - column:
                   name: password
                   value: "$2a$10$nj9I59ON.G8br0Mr/mu62OE3U2T3b5d8BW1BnjIBOeMlTr5vqz/yK"

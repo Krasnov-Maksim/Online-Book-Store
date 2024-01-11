@@ -14,4 +14,6 @@ databaseChangeLog:
   - include:
       file: db/changelog/changes/07-populate-roles-table-with-data.yaml
   - include:
-      file: db/changelog/changes/08-create-admin-delete-other-users.yaml
+      file: db/changelog/changes/08-create-admin.yaml
+  - include:
+      file: db/changelog/changes/09-update-users-bob-and-alice-set-password-and-role.yaml
