@@ -44,4 +44,4 @@ databaseChangeLog:
                   value: "Alice Address"
               - column:
                   name: is_deleted
-                  value: 1
+                  value: 0

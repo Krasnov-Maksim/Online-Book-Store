@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-admin
+      author: Krasnov-Maksim
+      comment: admin password 12345678
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: "admin@mail.com"
+              - column:
+                  name: password
+                  value: "$2a$10$nj9I59ON.G8br0Mr/mu62OE3U2T3b5d8BW1BnjIBOeMlTr5vqz/yK"
+              - column:
+                  name: first_name
+                  value: "Admin"
+              - column:
+                  name: last_name
+                  value: "Strong"
+              - column:
+                  name: shipping_address
+                  value: "Admin Address"
+              - column:
+                  name: is_deleted
+                  value: 0
+        - insert:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: user_id
+                  value: 3
+              - column:
+                  name: role_id
+                  valueNumeric: 1
