@@ -17,3 +17,7 @@ databaseChangeLog:
       file: db/changelog/changes/08-create-admin.yaml
   - include:
       file: db/changelog/changes/09-update-users-bob-and-alice-set-password-and-role.yaml
+  - include:
+      file: db/changelog/changes/10-create-categories-table.yaml
+  - include:
+      file: db/changelog/changes/11-create-books_categories-table.yaml

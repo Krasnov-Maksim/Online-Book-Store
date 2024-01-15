@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface BookRepository extends JpaRepository<Book, Long>,
         JpaSpecificationExecutor<Book> {
-    List<Book> findAllByCategoryId(Long categoryId, Pageable pageable);
+    List<Book> findAllByCategoriesId(Long categoryId, Pageable pageable);
 }
