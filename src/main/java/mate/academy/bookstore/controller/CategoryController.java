@@ -38,8 +38,8 @@ public class CategoryController {
             description = "Get all books which have specified category"
     )
     @Parameter(name = "id", description = "category id, default value = 0")
-    public List<BookDtoWithoutCategoryId> getListOfBooksByCategoryId(@PathVariable Long id,
-                                                                     Pageable pageable) {
-        return bookService.getListOfBooksByCategoryId(id, pageable);
+    public List<BookDtoWithoutCategoryId> getBooksByCategoryId(@PathVariable Long id,
+                                                               Pageable pageable) {
+        return bookService.getBooksByCategoryId(id, pageable);
     }
 }
