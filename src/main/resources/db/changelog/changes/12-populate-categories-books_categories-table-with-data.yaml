@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: populate-categories-books_categories-table-with-data
+      author: Krasnov-Maksim
+      changes:
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Category name 1"
+              - column:
+                  name: description
+                  value: "Category description 1"
+        - insert:
+            tableName: books_categories
+            columns:
+              - column:
+                  name: book_id
+                  value: 1
+              - column:
+                  name: category_id
+                  value: 1
