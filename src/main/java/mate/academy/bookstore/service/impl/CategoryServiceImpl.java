@@ -8,7 +8,7 @@ import mate.academy.bookstore.dto.category.CreateCategoryRequestDto;
 import mate.academy.bookstore.exception.EntityNotFoundException;
 import mate.academy.bookstore.mapper.CategoryMapper;
 import mate.academy.bookstore.model.Category;
-import mate.academy.bookstore.repository.book.CategoryRepository;
+import mate.academy.bookstore.repository.category.CategoryRepository;
 import mate.academy.bookstore.service.CategoryService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
