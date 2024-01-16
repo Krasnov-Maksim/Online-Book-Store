@@ -8,6 +8,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.bookstore.dto.book.BookDtoWithoutCategoryId;
 import mate.academy.bookstore.dto.category.CategoryDto;
+import mate.academy.bookstore.dto.category.CategoryDtoWithId;
 import mate.academy.bookstore.dto.category.CreateCategoryRequestDto;
 import mate.academy.bookstore.service.BookService;
 import mate.academy.bookstore.service.CategoryService;
@@ -36,16 +37,16 @@ public class CategoryController {
     @Parameter(name = "size", description = "elements per page, default value = 20")
     @Parameter(name = "sort", description = "sort criteria", example = "sort=name,Desc")
     @GetMapping
-    List<CategoryDto> getAll(Pageable pageable) {
+    public List<CategoryDtoWithId> getAll(Pageable pageable) {
         return categoryService.findAll(pageable);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/{id}/books")
     @Operation(summary = "Get all books by category id",
             description = "Get all books which have specified category"
     )
     @Parameter(name = "id", description = "category id, default value = 0")
+    @GetMapping("/{id}/books")
     public List<BookDtoWithoutCategoryId> getBooksByCategoryId(@PathVariable Long id,
                                                                Pageable pageable) {
         return bookService.getBooksByCategoryId(id, pageable);
@@ -59,20 +60,21 @@ public class CategoryController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/{id}")
     @Operation(summary = "Get a category by id",
-            description = "Get a category with specified id"
+            description = "Get category with specified id"
     )
     @Parameter(name = "id", description = "category id, default value = 0")
+    @GetMapping("/{id}")
     public CategoryDto getCategoryById(@PathVariable Long id) {
         return categoryService.getById(id);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Update a category by id",
-            description = "Update a category with specified id")
+            description = "Update category with specified id")
     @PutMapping("/{id}")
-    CategoryDto updateCategory(@PathVariable Long id, CreateCategoryRequestDto categoryDto) {
+    public CategoryDto updateCategory(@PathVariable Long id,
+                                      @RequestBody @Valid CreateCategoryRequestDto categoryDto) {
         return categoryService.update(id, categoryDto);
     }
 
