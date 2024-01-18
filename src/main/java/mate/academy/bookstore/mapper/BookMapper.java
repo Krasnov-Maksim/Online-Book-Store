@@ -17,7 +17,9 @@ import org.mapstruct.NullValueCheckStrategy;
 public interface BookMapper {
     BookDto toDto(Book book);
 
-    Book toEntity(CreateBookRequestDto requestDto);
+    Book toModel(CreateBookRequestDto requestDto);
+
+    Book toModel(BookDto bookDto);
 
     BookDtoWithoutCategoryId toDtoWithoutCategories(Book book);
 }

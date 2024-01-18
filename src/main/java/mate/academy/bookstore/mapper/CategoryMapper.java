@@ -19,5 +19,5 @@ public interface CategoryMapper {
 
     CategoryDtoWithId toDtoWithId(Category category);
 
-    Category toEntity(CreateCategoryRequestDto categoryDto);
+    Category toModel(CreateCategoryRequestDto categoryDto);
 }
