@@ -45,12 +45,12 @@ class ShoppingCartServiceImpl implements ShoppingCartService {
         }
         cartItemRepository.save(cartItem);
         shoppingCartRepository.save(shoppingCart);
-        return shoppingCartMapper.toDto(shoppingCart, cartItemMapper);
+        return shoppingCartMapper.toDto(shoppingCart);
     }
 
     @Override
     public ShoppingCartDto getShoppingCart(String email) {
-        return shoppingCartMapper.toDto(getShoppingCartByEmail(email), cartItemMapper);
+        return shoppingCartMapper.toDto(getShoppingCartByEmail(email));
     }
 
     @Override
