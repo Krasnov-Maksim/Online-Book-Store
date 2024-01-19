@@ -27,3 +27,5 @@ databaseChangeLog:
       file: db/changelog/changes/13-create-shopping_carts-table.yaml
   - include:
       file: db/changelog/changes/14-create-cart_items-table.yaml
+  - include:
+      file: db/changelog/changes/15-populate-shopping_carts-table-with-data-for-existing-users.yaml

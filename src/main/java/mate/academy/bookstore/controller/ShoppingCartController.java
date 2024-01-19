@@ -1,6 +1,7 @@
 package mate.academy.bookstore.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +31,10 @@ public class ShoppingCartController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Add book to shopping cart", description = "Add book to shopping cart")
     @PostMapping
-    public ShoppingCartDto addBookToShoppingCart(
+    public ShoppingCartDto addItemToShoppingCart(
             @RequestBody @Valid CreateCartItemRequestDto requestDto,
             Authentication authentication) {
-        return shoppingCartService.addBookToShoppingCart(requestDto, authentication.getName());
+        return shoppingCartService.addItemToShoppingCart(requestDto, authentication.getName());
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -45,19 +46,21 @@ public class ShoppingCartController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Delete cart item", description = "Delete cart item by id")
-    @DeleteMapping("/cart-items/{id}")
-    public void deleteItemFromShoppingCart(@PathVariable Long id, Authentication authentication) {
-        shoppingCartService.deleteItemFromShoppingCart(id, authentication.getName());
+    @DeleteMapping("/cart-items/{cartItemId}")
+    public void deleteItemFromShoppingCart(@PathVariable Long cartItemId,
+                                           Authentication authentication) {
+        shoppingCartService.deleteItemFromShoppingCart(cartItemId, authentication.getName());
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Update books quantity", description = "Update books quantity")
-    @PutMapping("/cart-items/{id}")
-    public CartItemDto updateQuantity(@PathVariable Long id,
-                                      @RequestBody @Valid CartItemQuantityDto quantityDto,
-                                      Authentication authentication
+    @Parameter(name = "cartItemId", description = "Cart item identifier")
+    @PutMapping("/cart-items/{cartItemId}")
+    public CartItemDto updateItemQuantity(@PathVariable Long cartItemId,
+                                          @RequestBody @Valid CartItemQuantityDto quantityDto,
+                                          Authentication authentication
     ) {
-        return shoppingCartService.updateItemQuantity(id, quantityDto.quantity(),
+        return shoppingCartService.updateItemQuantity(cartItemId, quantityDto.quantity(),
                 authentication.getName());
     }
 }

@@ -1,6 +1,10 @@
 package mate.academy.bookstore.mapper;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+import mate.academy.bookstore.dto.cartitem.CartItemDto;
 import mate.academy.bookstore.dto.shoppingcart.ShoppingCartDto;
+import mate.academy.bookstore.model.CartItem;
 import mate.academy.bookstore.model.ShoppingCart;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
@@ -14,11 +18,18 @@ import org.mapstruct.NullValueCheckStrategy;
         implementationPackage = "<PACKAGE_NAME>.impl"
 )
 public interface ShoppingCartMapper {
-    @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "cartItems", target = "cartItems")
-    ShoppingCartDto toDto(ShoppingCart shoppingCart);
+
+    default ShoppingCartDto toDto(ShoppingCart shoppingCart,
+                                  CartItemMapper cartItemMapper) {
+        Long id = shoppingCart.getId();
+        Long userId = shoppingCart.getUser().getId();
+        Set<CartItem> itemsInSource = shoppingCart.getCartItems();
+        Set<CartItemDto> itemsInResult = itemsInSource.stream()
+                .map(cartItemMapper::toDto)
+                .collect(Collectors.toSet());
+        return new ShoppingCartDto(id, userId, itemsInResult);
+    }
 
     @Mapping(target = "user", ignore = true)
     ShoppingCart toModel(ShoppingCartDto shoppingCartDto);
-
 }
