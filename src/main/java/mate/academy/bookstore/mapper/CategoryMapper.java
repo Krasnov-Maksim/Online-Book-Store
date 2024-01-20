@@ -1,23 +1,17 @@
 package mate.academy.bookstore.mapper;
 
+import mate.academy.bookstore.config.MapperConfig;
 import mate.academy.bookstore.dto.category.CategoryDto;
 import mate.academy.bookstore.dto.category.CategoryDtoWithId;
 import mate.academy.bookstore.dto.category.CreateCategoryRequestDto;
 import mate.academy.bookstore.model.Category;
-import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
-import org.mapstruct.NullValueCheckStrategy;
 
-@Mapper(
-        componentModel = "spring",
-        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
-        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
-        implementationPackage = "<PACKAGE_NAME>.impl"
-)
+@Mapper(config = MapperConfig.class)
 public interface CategoryMapper {
     CategoryDto toDto(Category category);
 
     CategoryDtoWithId toDtoWithId(Category category);
 
-    Category toEntity(CreateCategoryRequestDto categoryDto);
+    Category toModel(CreateCategoryRequestDto categoryDto);
 }

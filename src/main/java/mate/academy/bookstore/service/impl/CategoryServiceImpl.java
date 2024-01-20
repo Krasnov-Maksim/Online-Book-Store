@@ -35,7 +35,7 @@ class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto save(CreateCategoryRequestDto categoryDto) {
-        Category category = categoryMapper.toEntity(categoryDto);
+        Category category = categoryMapper.toModel(categoryDto);
         categoryRepository.save(category);
         return categoryMapper.toDto(category);
     }
@@ -43,7 +43,7 @@ class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto update(Long id, CreateCategoryRequestDto categoryDto) {
         getById(id);
-        Category category = categoryMapper.toEntity(categoryDto);
+        Category category = categoryMapper.toModel(categoryDto);
         category.setId(id);
         return categoryMapper.toDto(categoryRepository.save(category));
     }
