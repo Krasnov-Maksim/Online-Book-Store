@@ -75,7 +75,7 @@ class ShoppingCartServiceImpl implements ShoppingCartService {
 
     private ShoppingCart getShoppingCartByEmail(String email) {
         return shoppingCartRepository
-                .getShoppingCartById(userRepository.findByEmail(email)
+                .getShoppingCartByUserId(userRepository.findByEmail(email)
                         .orElseThrow(() -> new EntityNotFoundException(
                                 "Can't find shopping cart by email" + email))
                         .getId());
