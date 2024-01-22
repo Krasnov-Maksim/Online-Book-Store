@@ -2,6 +2,5 @@ package mate.academy.bookstore.dto.order;
 
 import mate.academy.bookstore.model.Order;
 
-public record OrderStatusDto(
-        Order.Status status) {
+public record OrderStatusDto(Order.Status status) {
 }

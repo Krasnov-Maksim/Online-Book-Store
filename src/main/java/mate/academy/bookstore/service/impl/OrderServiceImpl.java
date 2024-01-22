@@ -58,7 +58,12 @@ public class OrderServiceImpl implements OrderService {
         order.setTotal(BigDecimal.valueOf(total));
         order.setOrderDate(LocalDateTime.now());
         order.setShippingAddress(shippingAddress);
-        Set<OrderItem> orderItems = shoppingCart.getCartItems().stream()
+        order.setOrderItems(createSetOfOrderItems(shoppingCart, order));
+        return order;
+    }
+
+    private Set<OrderItem> createSetOfOrderItems(ShoppingCart shoppingCart, Order order) {
+        return shoppingCart.getCartItems().stream()
                 .map(cartItem -> {
                     OrderItem orderItem = new OrderItem();
                     orderItem.setBook(cartItem.getBook());
@@ -68,8 +73,6 @@ public class OrderServiceImpl implements OrderService {
                     return orderItem;
                 })
                 .collect(Collectors.toSet());
-        order.setOrderItems(orderItems);
-        return order;
     }
 
     @Override
