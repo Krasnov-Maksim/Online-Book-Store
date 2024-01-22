@@ -6,19 +6,16 @@ import mate.academy.bookstore.dto.order.OrderDto;
 import mate.academy.bookstore.dto.order.OrderStatusDto;
 import mate.academy.bookstore.dto.orderitem.OrderItemDto;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
 
 public interface OrderService {
 
-    OrderDto createOrder(Authentication authentication, CreateOrderRequestDto shippingAddress);
+    OrderDto createOrder(String email, CreateOrderRequestDto createOrderRequestDto);
 
-    List<OrderDto> getAllOrders(Authentication authentication, Pageable pageable);
+    List<OrderDto> getAllOrders(String email, Pageable pageable);
 
-    List<OrderItemDto> getAllOrderItems(Authentication authentication,
-                                        Long orderId, Pageable pageable);
+    List<OrderItemDto> getAllOrderItems(String email, Long orderId, Pageable pageable);
 
-    OrderItemDto getSpecificOrderItem(Authentication authentication, Long orderId, Long itemId);
+    OrderItemDto getSpecificOrderItem(String email, Long orderId, Long itemId);
 
-    OrderDto updateOrderStatus(Authentication authentication, Long orderId,
-                               OrderStatusDto statusDto);
+    OrderDto updateOrderStatus(String email, Long orderId, OrderStatusDto statusDto);
 }
