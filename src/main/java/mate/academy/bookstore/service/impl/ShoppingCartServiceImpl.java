@@ -6,7 +6,6 @@ import mate.academy.bookstore.dto.cartitem.CartItemDto;
 import mate.academy.bookstore.dto.cartitem.CreateCartItemRequestDto;
 import mate.academy.bookstore.dto.shoppingcart.ShoppingCartDto;
 import mate.academy.bookstore.exception.EntityNotFoundException;
-import mate.academy.bookstore.mapper.BookMapper;
 import mate.academy.bookstore.mapper.CartItemMapper;
 import mate.academy.bookstore.mapper.ShoppingCartMapper;
 import mate.academy.bookstore.model.Book;
@@ -27,7 +26,6 @@ class ShoppingCartServiceImpl implements ShoppingCartService {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
     private final ShoppingCartMapper shoppingCartMapper;
-    private final BookMapper bookMapper;
     private final CartItemMapper cartItemMapper;
 
     @Override
@@ -75,9 +73,9 @@ class ShoppingCartServiceImpl implements ShoppingCartService {
 
     private ShoppingCart getShoppingCartByEmail(String email) {
         return shoppingCartRepository
-                .getShoppingCartById(userRepository.findByEmail(email)
+                .getShoppingCartByUserId(userRepository.findByEmail(email)
                         .orElseThrow(() -> new EntityNotFoundException(
-                                "Can't find shopping cart by email" + email))
+                                "Can't find shopping cart by email: " + email))
                         .getId());
     }
 
