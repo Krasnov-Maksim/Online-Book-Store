@@ -77,7 +77,7 @@ class BookRepositoryTest {
     }
 
     @Test
-    @DisplayName("Find book with valid id represents book with categories")
+    @DisplayName("Find book by valid id")
     @Sql(scripts = {
             "classpath:sql/repository/book/before/add-books-to-books-table.sql",
             "classpath:sql/repository/book/before/add-category-to-categories-table.sql",

@@ -20,7 +20,6 @@ import org.springframework.test.context.jdbc.Sql;
 class CategoryRepositoryTest {
     private static final int PAGE_NUMBER = 0;
     private static final int PAGE_SIZE = 2;
-
     @Autowired
     private CategoryRepository categoryRepository;
 
