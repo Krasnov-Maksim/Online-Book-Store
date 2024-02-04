@@ -2,6 +2,8 @@ package mate.academy.bookstore.config;
 
 import java.math.BigDecimal;
 import java.util.Set;
+import mate.academy.bookstore.dto.user.UserRegistrationRequestDto;
+import mate.academy.bookstore.dto.user.UserResponseDto;
 import mate.academy.bookstore.model.Book;
 import mate.academy.bookstore.model.Category;
 import mate.academy.bookstore.model.Role;
@@ -13,6 +15,8 @@ public class DatabaseHelper {
     public static final Book BOOK_1;
     public static final Book BOOK_2;
     public static final User USER_JOHN;
+    public static final UserRegistrationRequestDto JOHN_REGISTRATION_REQUEST_DTO;
+    public static final UserResponseDto JOHN_RESPONSE_DTO;
     private static final Long BOOK_ID_1 = 1L;
     private static final String BOOK_AUTHOR_1 = "Author 1";
     private static final String BOOK_TITLE_1 = "Book 1";
@@ -47,8 +51,12 @@ public class DatabaseHelper {
                 BOOK_PRICE_1, BOOK_DESCRIPTION_1, BOOK_IMAGE_1, Set.of(CATEGORY_1));
         BOOK_2 = createBook(BOOK_ID_2, BOOK_TITLE_2, BOOK_AUTHOR_2, BOOK_ISBN_2,
                 BOOK_PRICE_2, BOOK_DESCRIPTION_2, BOOK_IMAGE_2, Set.of(CATEGORY_1));
+        Role johnRole = new Role();
+        johnRole.setName(Role.RoleName.ROLE_USER);
         USER_JOHN = createUser(JOHN_ID, JOHN_EMAIL, JOHN_FIRSTNAME, JOHN_LASTNAME, JOHN_PASSWORD,
-                JOHN_SHIPPING_ADDRESS, Set.of(new Role(Role.RoleName.ROLE_USER)));
+                JOHN_SHIPPING_ADDRESS, Set.of(johnRole));
+        JOHN_REGISTRATION_REQUEST_DTO = createUserRegistrationRequestDto(USER_JOHN);
+        JOHN_RESPONSE_DTO = createUserResponseDto(USER_JOHN);
     }
 
     private static User createUser(Long userId, String userEmail, String userFirstname,
@@ -86,5 +94,16 @@ public class DatabaseHelper {
         category.setName(name);
         category.setDescription(description);
         return category;
+    }
+
+    private static UserRegistrationRequestDto createUserRegistrationRequestDto(User user) {
+        return new UserRegistrationRequestDto(user.getEmail(), user.getPassword(),
+                user.getPassword(), user.getFirstName(), user.getLastName(),
+                user.getShippingAddress());
+    }
+
+    private static UserResponseDto createUserResponseDto(User user) {
+        return new UserResponseDto(user.getId(), user.getEmail(), user.getFirstName(),
+                user.getLastName(), user.getShippingAddress());
     }
 }

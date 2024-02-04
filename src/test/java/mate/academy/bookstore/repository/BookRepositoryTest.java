@@ -1,5 +1,7 @@
 package mate.academy.bookstore.repository;
 
+import static mate.academy.bookstore.config.DatabaseHelper.BOOK_1;
+import static mate.academy.bookstore.config.DatabaseHelper.CATEGORY_1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.when;
@@ -7,7 +9,6 @@ import static org.mockito.Mockito.when;
 import jakarta.persistence.criteria.Predicate;
 import java.util.List;
 import java.util.Optional;
-import mate.academy.bookstore.config.DatabaseHelper;
 import mate.academy.bookstore.dto.book.BookSearchParametersDto;
 import mate.academy.bookstore.model.Book;
 import mate.academy.bookstore.repository.book.BookRepository;
@@ -50,7 +51,7 @@ class BookRepositoryTest {
     void findAllByCategoryId_ValidCategoryId_ShouldReturnBooksByCategory() {
         Pageable pageable = PageRequest.of(PAGE_NUMBER, PAGE_SIZE);
         List<Book> actual = bookRepository
-                .findAllByCategoriesId(DatabaseHelper.CATEGORY_1.getId(), pageable);
+                .findAllByCategoriesId(CATEGORY_1.getId(), pageable);
         assertFalse(actual.isEmpty());
         assertEquals(EXPECTED_LIST_SIZE, actual.size());
         assertEquals("Book 1", actual.get(0).getTitle());
@@ -88,9 +89,9 @@ class BookRepositoryTest {
             "classpath:sql/repository/book/after/remove-from-books.sql",
             "classpath:sql/repository/book/after/remove-from-categories.sql"
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    void findById_validId_ShouldReturnBook() {
-        Book expected = DatabaseHelper.BOOK_1;
-        Optional<Book> actual = bookRepository.findById(DatabaseHelper.BOOK_1.getId());
+    void findById_ValidId_ShouldReturnBook() {
+        Book expected = BOOK_1;
+        Optional<Book> actual = bookRepository.findById(BOOK_1.getId());
         assertFalse(actual.isEmpty());
         assertEquals(expected, actual.get());
     }
@@ -107,21 +108,17 @@ class BookRepositoryTest {
             "classpath:sql/repository/book/after/remove-from-books.sql",
             "classpath:sql/repository/book/after/remove-from-categories.sql"
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    void findAll_withSpecification_Success() {
-
+    void findAll_WithSpecification_Success() {
         BookSearchParametersDto bookSearchParameters = new BookSearchParametersDto(
                 new String[]{"Author 1"}, new String[]{"%Book%"});
-
         Specification<Book> spec = (root, query, builder) -> {
             Predicate predicate = builder.conjunction();
             predicate = builder.and(predicate, builder.equal(root.get("author"), "Author 1"));
             predicate = builder.and(predicate, builder.like(root.get("title"), "%Book%"));
             return predicate;
         };
-
         when(bookSpecificationBuilder.build(bookSearchParameters)).thenReturn(spec);
-
-        List<Book> expected = List.of(DatabaseHelper.BOOK_1);
+        List<Book> expected = List.of(BOOK_1);
         List<Book> actual = bookRepository.findAll(spec);
         assertEquals(expected, actual);
     }

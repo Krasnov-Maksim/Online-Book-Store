@@ -1,10 +1,10 @@
 package mate.academy.bookstore.repository;
 
+import static mate.academy.bookstore.config.DatabaseHelper.USER_JOHN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
-import mate.academy.bookstore.config.DatabaseHelper;
 import mate.academy.bookstore.model.User;
 import mate.academy.bookstore.repository.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -27,9 +27,9 @@ class UserRepositoryTest {
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/repository/user/after/remove-from-users.sql",
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    void findByEmail_validEmail_Success() {
-        User expected = DatabaseHelper.USER_JOHN;
-        User actual = userRepository.findByEmail(DatabaseHelper.USER_JOHN.getEmail()).get();
+    void findByEmail_ValidEmail_Success() {
+        User expected = USER_JOHN;
+        User actual = userRepository.findByEmail(USER_JOHN.getEmail()).get();
         assertEquals(expected, actual);
     }
 
@@ -39,7 +39,7 @@ class UserRepositoryTest {
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/repository/user/after/remove-from-users.sql",
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    void findByEmail_invalidEmail_EmptyOptional() {
+    void findByEmail_InvalidEmail_EmptyOptional() {
         Optional<User> actual = userRepository.findByEmail(INVALID_EMAIL);
         assertTrue(actual.isEmpty());
     }
