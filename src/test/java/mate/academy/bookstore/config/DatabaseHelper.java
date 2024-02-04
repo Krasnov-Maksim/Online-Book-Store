@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 import mate.academy.bookstore.dto.book.BookDto;
 import mate.academy.bookstore.dto.book.BookDtoWithoutCategoryId;
 import mate.academy.bookstore.dto.book.CreateBookRequestDto;
+import mate.academy.bookstore.dto.category.CategoryDto;
+import mate.academy.bookstore.dto.category.CategoryDtoWithId;
+import mate.academy.bookstore.dto.category.CreateCategoryRequestDto;
 import mate.academy.bookstore.dto.user.UserRegistrationRequestDto;
 import mate.academy.bookstore.dto.user.UserResponseDto;
 import mate.academy.bookstore.model.Book;
@@ -16,15 +19,19 @@ import mate.academy.bookstore.model.User;
 public class DatabaseHelper {
     public static final Category CATEGORY_1;
     public static final Category CATEGORY_2;
+    public static final Long INVALID_CATEGORY_ID = -1000L;
     public static final Book BOOK_1;
     public static final Book BOOK_2;
     public static final User USER_JOHN;
     public static final UserRegistrationRequestDto JOHN_REGISTRATION_REQUEST_DTO;
     public static final UserResponseDto JOHN_RESPONSE_DTO;
-    public static final CreateBookRequestDto CREATE_BOOK_REQUEST_DTO;
+    public static final CreateBookRequestDto CREATE_BOOK_1_REQUEST_DTO;
     public static final BookDtoWithoutCategoryId BOOK_1_DTO_WITHOUT_CATEGORY_ID;
     public static final BookDto BOOK_1_DTO;
     public static final BookDto BOOK_2_DTO;
+    public static final CategoryDtoWithId CATEGORY_1_DTO_WITH_ID;
+    public static final CategoryDto CATEGORY_1_DTO;
+    public static final CreateCategoryRequestDto CREATE_CATEGORY_1_REQUEST_DTO;
     private static final Long BOOK_ID_1 = 1L;
     private static final String BOOK_AUTHOR_1 = "Author 1";
     private static final String BOOK_TITLE_1 = "Book 1";
@@ -65,10 +72,13 @@ public class DatabaseHelper {
                 JOHN_SHIPPING_ADDRESS, Set.of(johnRole));
         JOHN_REGISTRATION_REQUEST_DTO = createUserRegistrationRequestDto(USER_JOHN);
         JOHN_RESPONSE_DTO = createUserResponseDto(USER_JOHN);
-        CREATE_BOOK_REQUEST_DTO = createBookRequestDto(BOOK_1);
+        CREATE_BOOK_1_REQUEST_DTO = createBookRequestDto(BOOK_1);
         BOOK_1_DTO = createBookDto(BOOK_1);
         BOOK_2_DTO = createBookDto(BOOK_2);
         BOOK_1_DTO_WITHOUT_CATEGORY_ID = createBookDtoWithoutCategoryId(BOOK_1);
+        CREATE_CATEGORY_1_REQUEST_DTO = createCategoryRequestDto(CATEGORY_1);
+        CATEGORY_1_DTO_WITH_ID = createCategoryDtoWithId(CATEGORY_1);
+        CATEGORY_1_DTO = createCategoryDto(CATEGORY_1);
     }
 
     private static User createUser(Long userId, String userEmail, String userFirstname,
@@ -135,5 +145,18 @@ public class DatabaseHelper {
     private static BookDtoWithoutCategoryId createBookDtoWithoutCategoryId(Book book) {
         return new BookDtoWithoutCategoryId(book.getTitle(), book.getAuthor(), book.getIsbn(),
                 book.getPrice(), book.getDescription(), book.getCoverImage());
+    }
+
+    private static CategoryDtoWithId createCategoryDtoWithId(Category category) {
+        return new CategoryDtoWithId(category.getId(), category.getName(),
+                category.getDescription());
+    }
+
+    private static CategoryDto createCategoryDto(Category category) {
+        return new CategoryDto(category.getName(), category.getDescription());
+    }
+
+    private static CreateCategoryRequestDto createCategoryRequestDto(Category category) {
+        return new CreateCategoryRequestDto(category.getName(), category.getDescription());
     }
 }

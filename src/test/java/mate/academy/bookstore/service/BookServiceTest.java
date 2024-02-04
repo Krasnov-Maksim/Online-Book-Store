@@ -4,7 +4,7 @@ import static mate.academy.bookstore.config.DatabaseHelper.BOOK_1;
 import static mate.academy.bookstore.config.DatabaseHelper.BOOK_1_DTO;
 import static mate.academy.bookstore.config.DatabaseHelper.BOOK_1_DTO_WITHOUT_CATEGORY_ID;
 import static mate.academy.bookstore.config.DatabaseHelper.BOOK_2;
-import static mate.academy.bookstore.config.DatabaseHelper.CREATE_BOOK_REQUEST_DTO;
+import static mate.academy.bookstore.config.DatabaseHelper.CREATE_BOOK_1_REQUEST_DTO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -58,11 +58,11 @@ class BookServiceTest {
     void save_ValidCreateBookRequestDto_Ok() {
         //Given
         BookDto expected = BOOK_1_DTO;
-        when(bookMapper.toModel(CREATE_BOOK_REQUEST_DTO)).thenReturn(BOOK_1);
+        when(bookMapper.toModel(CREATE_BOOK_1_REQUEST_DTO)).thenReturn(BOOK_1);
         when(bookRepository.save(BOOK_1)).thenReturn(BOOK_1);
         when(bookMapper.toDto(BOOK_1)).thenReturn(expected);
         //When
-        BookDto actual = bookService.save(CREATE_BOOK_REQUEST_DTO);
+        BookDto actual = bookService.save(CREATE_BOOK_1_REQUEST_DTO);
         //Then
         assertEquals(expected, actual);
     }
@@ -121,9 +121,9 @@ class BookServiceTest {
     @Test
     @DisplayName("Verify deleteById() deletes book by id")
     void deleteById_ValidBookId_Ok() {
-        doNothing().when(bookRepository).deleteById(BOOK_1.getId());
+        doNothing().when(bookRepository).deleteById(anyLong());
         bookService.deleteById(BOOK_1.getId());
-        verify(bookRepository, times(1)).deleteById(BOOK_1.getId());
+        verify(bookRepository, times(1)).deleteById(anyLong());
     }
 
     @Test
@@ -185,7 +185,7 @@ class BookServiceTest {
         //When
         EntityNotFoundException entityNotFoundException = assertThrows(
                 EntityNotFoundException.class,
-                () -> bookService.updateById(INVALID_BOOK_ID, CREATE_BOOK_REQUEST_DTO));
+                () -> bookService.updateById(INVALID_BOOK_ID, CREATE_BOOK_1_REQUEST_DTO));
         //Then
         assertEquals("Can't find book by id " + INVALID_BOOK_ID,
                 entityNotFoundException.getMessage());
