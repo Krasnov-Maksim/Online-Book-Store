@@ -64,12 +64,29 @@ class UserServiceTest {
 
     @Test
     @DisplayName("Register new user when user already exists")
-    void register_UserAlreadyExists_RegistrationException() {
+    void register_UserAlreadyExists_ShouldThrowRegistrationException() {
         when(userRepository.findByEmail(JOHN_REGISTRATION_REQUEST_DTO.email()))
                 .thenReturn(Optional.of(USER_JOHN));
         RegistrationException registrationException = assertThrows(RegistrationException.class,
                 () -> userService.register(JOHN_REGISTRATION_REQUEST_DTO));
         assertEquals(RegistrationException.class, registrationException.getClass());
         assertEquals("Email already registered", registrationException.getMessage());
+    }
+
+    @Test
+    @DisplayName("Register new shopping cart when user is 'null'")
+    void registerNewShoppingCart_UserIsNull_ShouldThrowIllegalArgumentException() {
+        //Given
+        when(shoppingCartRepository.save(any(ShoppingCart.class)))
+                .thenThrow(new IllegalArgumentException("Can't save shopping cart, user is null"));
+        //When
+        IllegalArgumentException illegalArgumentException = assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.registerNewShoppingCart(any(User.class))
+        );
+        //Then
+        assertEquals("Can't save shopping cart, user is null",
+                illegalArgumentException.getMessage());
+        assertEquals(IllegalArgumentException.class, illegalArgumentException.getClass());
     }
 }

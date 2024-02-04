@@ -2,6 +2,10 @@ package mate.academy.bookstore.config;
 
 import java.math.BigDecimal;
 import java.util.Set;
+import java.util.stream.Collectors;
+import mate.academy.bookstore.dto.book.BookDto;
+import mate.academy.bookstore.dto.book.BookDtoWithoutCategoryId;
+import mate.academy.bookstore.dto.book.CreateBookRequestDto;
 import mate.academy.bookstore.dto.user.UserRegistrationRequestDto;
 import mate.academy.bookstore.dto.user.UserResponseDto;
 import mate.academy.bookstore.model.Book;
@@ -17,6 +21,10 @@ public class DatabaseHelper {
     public static final User USER_JOHN;
     public static final UserRegistrationRequestDto JOHN_REGISTRATION_REQUEST_DTO;
     public static final UserResponseDto JOHN_RESPONSE_DTO;
+    public static final CreateBookRequestDto CREATE_BOOK_REQUEST_DTO;
+    public static final BookDtoWithoutCategoryId BOOK_1_DTO_WITHOUT_CATEGORY_ID;
+    public static final BookDto BOOK_1_DTO;
+    public static final BookDto BOOK_2_DTO;
     private static final Long BOOK_ID_1 = 1L;
     private static final String BOOK_AUTHOR_1 = "Author 1";
     private static final String BOOK_TITLE_1 = "Book 1";
@@ -57,6 +65,10 @@ public class DatabaseHelper {
                 JOHN_SHIPPING_ADDRESS, Set.of(johnRole));
         JOHN_REGISTRATION_REQUEST_DTO = createUserRegistrationRequestDto(USER_JOHN);
         JOHN_RESPONSE_DTO = createUserResponseDto(USER_JOHN);
+        CREATE_BOOK_REQUEST_DTO = createBookRequestDto(BOOK_1);
+        BOOK_1_DTO = createBookDto(BOOK_1);
+        BOOK_2_DTO = createBookDto(BOOK_2);
+        BOOK_1_DTO_WITHOUT_CATEGORY_ID = createBookDtoWithoutCategoryId(BOOK_1);
     }
 
     private static User createUser(Long userId, String userEmail, String userFirstname,
@@ -105,5 +117,23 @@ public class DatabaseHelper {
     private static UserResponseDto createUserResponseDto(User user) {
         return new UserResponseDto(user.getId(), user.getEmail(), user.getFirstName(),
                 user.getLastName(), user.getShippingAddress());
+    }
+
+    private static CreateBookRequestDto createBookRequestDto(Book book) {
+        return new CreateBookRequestDto(book.getTitle(), book.getAuthor(), book.getIsbn(),
+                book.getPrice(), book.getDescription(), book.getCoverImage());
+    }
+
+    private static BookDto createBookDto(Book book) {
+        Set<Long> categoriesIds = book.getCategories().stream()
+                .map(Category::getId)
+                .collect(Collectors.toSet());
+        return new BookDto(book.getTitle(), book.getAuthor(), book.getIsbn(), book.getPrice(),
+                book.getDescription(), book.getCoverImage(), categoriesIds);
+    }
+
+    private static BookDtoWithoutCategoryId createBookDtoWithoutCategoryId(Book book) {
+        return new BookDtoWithoutCategoryId(book.getTitle(), book.getAuthor(), book.getIsbn(),
+                book.getPrice(), book.getDescription(), book.getCoverImage());
     }
 }
