@@ -23,8 +23,11 @@ public class DatabaseHelper {
     public static final Book BOOK_1;
     public static final Book BOOK_2;
     public static final User USER_JOHN;
+    public static final User NEW_USER;
     public static final UserRegistrationRequestDto JOHN_REGISTRATION_REQUEST_DTO;
     public static final UserResponseDto JOHN_RESPONSE_DTO;
+    public static final UserRegistrationRequestDto NEW_USER_REGISTRATION_REQUEST_DTO;
+    public static final UserResponseDto NEW_USER_RESPONSE_DTO;
     public static final CreateBookRequestDto CREATE_BOOK_1_REQUEST_DTO;
     public static final BookDtoWithoutCategoryId BOOK_1_DTO_WITHOUT_CATEGORY_ID;
     public static final BookDto BOOK_1_DTO;
@@ -56,8 +59,14 @@ public class DatabaseHelper {
     private static final String JOHN_EMAIL = "john@test.com";
     private static final String JOHN_FIRSTNAME = "John";
     private static final String JOHN_LASTNAME = "Doe";
-    private static final String JOHN_PASSWORD = "john1234";
+    private static final String JOHN_PASSWORD = "12345678";
     private static final String JOHN_SHIPPING_ADDRESS = "John Shipping Address";
+    private static final Long NEW_USER_ID = 5L;
+    private static final String NEW_USER_EMAIL = "new_user@test.com";
+    private static final String NEW_USER_FIRSTNAME = "New";
+    private static final String NEW_USER_LASTNAME = "Doe";
+    private static final String NEW_USER_PASSWORD = "new_user1234";
+    private static final String NEW_USER_SHIPPING_ADDRESS = "New user Shipping Address";
 
     static {
         CATEGORY_1 = createCategory(CATEGORY_ID_1, CATEGORY_NAME_1, CATEGORY_DESCRIPTION_1);
@@ -66,12 +75,20 @@ public class DatabaseHelper {
                 BOOK_PRICE_1, BOOK_DESCRIPTION_1, BOOK_IMAGE_1, Set.of(CATEGORY_1));
         BOOK_2 = createBook(BOOK_ID_2, BOOK_TITLE_2, BOOK_AUTHOR_2, BOOK_ISBN_2,
                 BOOK_PRICE_2, BOOK_DESCRIPTION_2, BOOK_IMAGE_2, Set.of(CATEGORY_1));
-        Role johnRole = new Role();
-        johnRole.setName(Role.RoleName.ROLE_USER);
+        Role userRole = new Role();
+        userRole.setId(1L);
+        userRole.setName(Role.RoleName.ROLE_USER);
         USER_JOHN = createUser(JOHN_ID, JOHN_EMAIL, JOHN_FIRSTNAME, JOHN_LASTNAME, JOHN_PASSWORD,
-                JOHN_SHIPPING_ADDRESS, Set.of(johnRole));
+                JOHN_SHIPPING_ADDRESS, Set.of(userRole));
+        Role adminRole = new Role();
+        adminRole.setId(2L);
+        adminRole.setName(Role.RoleName.ROLE_ADMIN);
+        NEW_USER = createUser(NEW_USER_ID, NEW_USER_EMAIL, NEW_USER_FIRSTNAME, NEW_USER_LASTNAME,
+                NEW_USER_PASSWORD, NEW_USER_SHIPPING_ADDRESS, Set.of(userRole, adminRole));
         JOHN_REGISTRATION_REQUEST_DTO = createUserRegistrationRequestDto(USER_JOHN);
+        NEW_USER_REGISTRATION_REQUEST_DTO = createUserRegistrationRequestDto(NEW_USER);
         JOHN_RESPONSE_DTO = createUserResponseDto(USER_JOHN);
+        NEW_USER_RESPONSE_DTO = createUserResponseDto(NEW_USER);
         CREATE_BOOK_1_REQUEST_DTO = createBookRequestDto(BOOK_1);
         BOOK_1_DTO = createBookDto(BOOK_1);
         BOOK_2_DTO = createBookDto(BOOK_2);
