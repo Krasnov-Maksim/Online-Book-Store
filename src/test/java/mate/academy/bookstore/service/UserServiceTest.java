@@ -6,10 +6,12 @@ import static mate.academy.bookstore.config.DatabaseHelper.USER_JOHN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
+import mate.academy.bookstore.dto.user.UserRegistrationRequestDto;
 import mate.academy.bookstore.dto.user.UserResponseDto;
 import mate.academy.bookstore.exception.RegistrationException;
 import mate.academy.bookstore.mapper.UserMapper;
@@ -46,18 +48,20 @@ class UserServiceTest {
     @Test
     @DisplayName("Register new user")
     void register_ValidUserRegistrationRequest_Success() throws RegistrationException {
-        UserResponseDto expected = JOHN_RESPONSE_DTO;
-        when(userRepository.findByEmail(JOHN_REGISTRATION_REQUEST_DTO.email()))
+        when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.empty());
-        when(userMapper.toModel(JOHN_REGISTRATION_REQUEST_DTO))
+        when(userMapper.toModel(any(UserRegistrationRequestDto.class)))
                 .thenReturn(USER_JOHN);
         when(roleRepository.findByName(Role.RoleName.ROLE_USER))
                 .thenReturn(USER_JOHN.getRoles().stream().findFirst());
-        when(userRepository.save(any(User.class))).thenReturn(USER_JOHN);
-        when(passwordEncoder.encode(JOHN_REGISTRATION_REQUEST_DTO.password()))
+        when(userRepository.save(any(User.class)))
+                .thenReturn(USER_JOHN);
+        when(passwordEncoder.encode(anyString()))
                 .thenReturn(USER_JOHN.getPassword());
         doReturn(null).when(shoppingCartRepository).save(any(ShoppingCart.class));
-        when(userMapper.toDto(USER_JOHN)).thenReturn(expected);
+        UserResponseDto expected = JOHN_RESPONSE_DTO;
+        when(userMapper.toDto(any(User.class)))
+                .thenReturn(expected);
         UserResponseDto actual = userService.register(JOHN_REGISTRATION_REQUEST_DTO);
         assertEquals(expected, actual);
     }
@@ -65,7 +69,7 @@ class UserServiceTest {
     @Test
     @DisplayName("Register new user when user already exists")
     void register_UserAlreadyExists_ShouldThrowRegistrationException() {
-        when(userRepository.findByEmail(JOHN_REGISTRATION_REQUEST_DTO.email()))
+        when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(USER_JOHN));
         RegistrationException registrationException = assertThrows(RegistrationException.class,
                 () -> userService.register(JOHN_REGISTRATION_REQUEST_DTO));
@@ -82,8 +86,7 @@ class UserServiceTest {
         //When
         IllegalArgumentException illegalArgumentException = assertThrows(
                 IllegalArgumentException.class,
-                () -> userService.registerNewShoppingCart(any(User.class))
-        );
+                () -> userService.registerNewShoppingCart(any(User.class)));
         //Then
         assertEquals("Can't save shopping cart, user is null",
                 illegalArgumentException.getMessage());

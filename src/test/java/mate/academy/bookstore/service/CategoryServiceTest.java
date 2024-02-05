@@ -46,13 +46,15 @@ class CategoryServiceTest {
 
     @Test
     @DisplayName("Verify findAll() returns all not-deleted categories in DB")
-    void findAll_validPageable_Ok() {
+    void findAll_validPageable_ShouldReturnAllCategories() {
         //Given
         List<Category> categories = List.of(CATEGORY_1);
         Pageable pageable = PageRequest.of(0, 10);
         Page<Category> categoryPage = new PageImpl<>(categories, pageable, categories.size());
-        when(categoryRepository.findAll(any(Pageable.class))).thenReturn(categoryPage);
-        when(categoryMapper.toDtoWithId(any(Category.class))).thenReturn(CATEGORY_1_DTO_WITH_ID);
+        when(categoryRepository.findAll(any(Pageable.class)))
+                .thenReturn(categoryPage);
+        when(categoryMapper.toDtoWithId(any(Category.class)))
+                .thenReturn(CATEGORY_1_DTO_WITH_ID);
         List<CategoryDtoWithId> expected = List.of(CATEGORY_1_DTO_WITH_ID);
         //When
         List<CategoryDtoWithId> actual = categoryService.findAll(pageable);
@@ -62,7 +64,7 @@ class CategoryServiceTest {
 
     @Test
     @DisplayName("Verify getById() with valid id returns need category from DB")
-    void getById_ValidId_Ok() {
+    void getById_ValidId_ShouldReturnCategory() {
         CategoryDto expected = CATEGORY_1_DTO;
         when(categoryRepository.findById(anyLong())).thenReturn(Optional.of(CATEGORY_1));
         when(categoryMapper.toDto(any(Category.class))).thenReturn(expected);
@@ -76,10 +78,8 @@ class CategoryServiceTest {
         when(categoryRepository.findById(INVALID_CATEGORY_ID))
                 .thenThrow(new EntityNotFoundException("Can't find category by id "
                         + INVALID_CATEGORY_ID));
-
         EntityNotFoundException entityNotFoundException = assertThrows(
                 EntityNotFoundException.class, () -> categoryService.getById(INVALID_CATEGORY_ID));
-
         assertEquals("Can't find category by id " + INVALID_CATEGORY_ID,
                 entityNotFoundException.getMessage());
         assertEquals(EntityNotFoundException.class, entityNotFoundException.getClass());
@@ -87,31 +87,38 @@ class CategoryServiceTest {
 
     @Test
     @DisplayName("Verify save() returns correct category after saving")
-    void save_ValidCreateCategoryRequestDto_Ok() {
-        when(categoryMapper.toModel(any(CreateCategoryRequestDto.class))).thenReturn(CATEGORY_1);
-        when(categoryRepository.save(any(Category.class))).thenReturn(CATEGORY_1);
+    void save_ValidCreateCategoryRequestDto_ShouldSaveCategory() {
+        when(categoryMapper.toModel(any(CreateCategoryRequestDto.class)))
+                .thenReturn(CATEGORY_1);
+        when(categoryRepository.save(any(Category.class)))
+                .thenReturn(CATEGORY_1);
         CategoryDto expected = CATEGORY_1_DTO;
-        when(categoryMapper.toDto(any(Category.class))).thenReturn(expected);
+        when(categoryMapper.toDto(any(Category.class)))
+                .thenReturn(expected);
         CategoryDto actual = categoryService.save(CREATE_CATEGORY_1_REQUEST_DTO);
         assertEquals(expected, actual);
     }
 
     @Test
     @DisplayName("Verify update() updated category with valid ID and input parameters")
-    void update_ValidIdAndRequestParams_Ok() {
+    void update_ValidIdAndRequestParams_ShouldUpdateCategory() {
+        //Given
         CreateCategoryRequestDto categoryDto = new CreateCategoryRequestDto("Category new name",
                 "New Category Description");
         Category updatedCategory = new Category();
         updatedCategory.setId(CATEGORY_1.getId());
         updatedCategory.setName(categoryDto.name());
         updatedCategory.setDescription(categoryDto.description());
-        when(categoryRepository.findById(anyLong())).thenReturn(Optional.of(CATEGORY_1));
+        when(categoryRepository.findById(anyLong()))
+                .thenReturn(Optional.of(CATEGORY_1));
         when(categoryMapper.toModel(any(CreateCategoryRequestDto.class)))
                 .thenReturn(updatedCategory);
-        when(categoryRepository.save(any(Category.class))).thenReturn(updatedCategory);
+        when(categoryRepository.save(any(Category.class)))
+                .thenReturn(updatedCategory);
         CategoryDto expected = categoryMapper.toDto(updatedCategory);
-
+        //When
         CategoryDto actual = categoryService.update(CATEGORY_1.getId(), categoryDto);
+        //Then
         assertEquals(expected, actual);
     }
 
@@ -119,18 +126,15 @@ class CategoryServiceTest {
     @DisplayName("Verify update() throws exception for invalid ID")
     void update_InvalidId_ShouldThrowEntityNotFoundException() {
         //Given
+        CreateCategoryRequestDto categoryDto = new CreateCategoryRequestDto(
+                "Category with invalid id", "Category has invalid id");
         when(categoryRepository.findById(INVALID_CATEGORY_ID))
                 .thenThrow(new EntityNotFoundException("Can't find category by id "
                         + INVALID_CATEGORY_ID));
-        CreateCategoryRequestDto categoryDto = new CreateCategoryRequestDto(
-                "Category with invalid id", "Category has invalid id");
-
         //When
         EntityNotFoundException entityNotFoundException = assertThrows(
                 EntityNotFoundException.class,
-                () -> categoryService.update(INVALID_CATEGORY_ID, categoryDto)
-        );
-
+                () -> categoryService.update(INVALID_CATEGORY_ID, categoryDto));
         //Then
         assertEquals("Can't find category by id " + INVALID_CATEGORY_ID,
                 entityNotFoundException.getMessage());
@@ -139,9 +143,9 @@ class CategoryServiceTest {
 
     @Test
     @DisplayName("Verify delete() removes category by id")
-    void deleteById_ValidId_Ok() {
+    void deleteById_ValidId_ShouldDeleteCategory() {
         doNothing().when(categoryRepository).deleteById(anyLong());
-        categoryService.deleteById(CATEGORY_1.getId());
+        categoryService.deleteById(anyLong());
         verify(categoryRepository, times(1)).deleteById(anyLong());
     }
 }

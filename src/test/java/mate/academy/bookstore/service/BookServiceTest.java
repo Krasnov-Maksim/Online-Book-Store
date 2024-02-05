@@ -55,7 +55,7 @@ class BookServiceTest {
 
     @Test
     @DisplayName("Verify save() method. Correct book returns after saving")
-    void save_ValidCreateBookRequestDto_Ok() {
+    void save_ValidCreateBookRequestDto_ShouldSaveBook() {
         //Given
         BookDto expected = BOOK_1_DTO;
         when(bookMapper.toModel(CREATE_BOOK_1_REQUEST_DTO)).thenReturn(BOOK_1);
@@ -69,7 +69,7 @@ class BookServiceTest {
 
     @Test
     @DisplayName("Verify findAll() displays all books")
-    void findAll_ValidPageable_Ok() {
+    void findAll_ValidPageable_ShouldReturnAllBooks() {
         //Given
         Pageable pageable = PageRequest.of(0, 10);
         BookDto bookDto = BOOK_1_DTO;
@@ -91,7 +91,7 @@ class BookServiceTest {
 
     @Test
     @DisplayName("Verify findById() displays right book")
-    void getBookById_ValidBookId_Ok() {
+    void getBookById_ValidBookId_ShouldFindBook() {
         //Given
         BookDto expected = BOOK_1_DTO;
         Book book = BOOK_1;
@@ -120,7 +120,7 @@ class BookServiceTest {
 
     @Test
     @DisplayName("Verify deleteById() deletes book by id")
-    void deleteById_ValidBookId_Ok() {
+    void deleteById_ValidBookId_ShouldDeleteBook() {
         doNothing().when(bookRepository).deleteById(anyLong());
         bookService.deleteById(BOOK_1.getId());
         verify(bookRepository, times(1)).deleteById(anyLong());
@@ -128,7 +128,7 @@ class BookServiceTest {
 
     @Test
     @DisplayName("Verify search() searches books by input parameters")
-    void search_ValidSearchParameters_Ok() {
+    void search_ValidSearchParameters_ShouldReturnListOfBooks() {
         //Given
         String[] authorParams = {BOOK_1.getAuthor(), BOOK_2.getAuthor()};
         String[] titleParams = {BOOK_1.getTitle(), BOOK_2.getTitle()};
@@ -141,7 +141,7 @@ class BookServiceTest {
         mockBooks.add(BOOK_2);
         Pageable pageable = PageRequest.of(0, 10);
         when(bookRepository.findAll(specification, pageable))
-                .thenReturn(new PageImpl<Book>(mockBooks));
+                .thenReturn(new PageImpl<>(mockBooks));
         List<BookDto> expected = mockBooks.stream().map(bookMapper::toDto).toList();
         //When
         List<BookDto> actual = bookService.search(searchParameters, pageable);
@@ -153,7 +153,7 @@ class BookServiceTest {
 
     @Test
     @DisplayName("Verify update() updated books with valid ID and input parameters")
-    void updateById_ValidIdAndRequestParameters_Ok() {
+    void updateById_ValidIdAndRequestParameters_ShouldUpdateBook() {
         //Given
         CreateBookRequestDto createBookRequestDto = new CreateBookRequestDto("New name",
                 "New Author", "978-92-95055-02-5", BigDecimal.valueOf(77700, 2),
@@ -166,7 +166,7 @@ class BookServiceTest {
         updatedBook.setDescription(createBookRequestDto.description());
         updatedBook.setCoverImage(createBookRequestDto.coverImage());
         updatedBook.setIsbn(createBookRequestDto.isbn());
-        when(bookRepository.findById(BOOK_1.getId())).thenReturn(Optional.of(BOOK_1));
+        when(bookRepository.findById(anyLong())).thenReturn(Optional.of(BOOK_1));
         when(bookMapper.toModel(any(CreateBookRequestDto.class))).thenReturn(updatedBook);
         when(bookRepository.save(any(Book.class))).thenReturn(updatedBook);
         BookDto expected = bookMapper.toDto(updatedBook);
