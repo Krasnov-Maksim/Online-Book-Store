@@ -115,7 +115,7 @@ class AuthenticationControllerIntegrationTest {
 
     @Test
     @DisplayName("Login user with valid UserLoginRequestDto")
-    void login_validUserLoginRequestDto_Success() throws Exception {
+    void login_ValidUserLoginRequestDto_Success() throws Exception {
         UserLoginRequestDto loginRequestDto = new UserLoginRequestDto(USER_JOHN.getEmail(),
                 USER_JOHN.getPassword());
         String expectedToken = authenticationService.authentication(loginRequestDto).token();

@@ -29,7 +29,6 @@ public class DatabaseHelper {
     public static final UserRegistrationRequestDto NEW_USER_REGISTRATION_REQUEST_DTO;
     public static final UserResponseDto NEW_USER_RESPONSE_DTO;
     public static final CreateBookRequestDto CREATE_BOOK_1_REQUEST_DTO;
-    public static final BookDtoWithoutCategoryId BOOK_1_DTO_WITHOUT_CATEGORY_ID;
     public static final BookDto BOOK_1_DTO;
     public static final BookDto BOOK_2_DTO;
     public static final CategoryDtoWithId CATEGORY_1_DTO_WITH_ID;
@@ -92,7 +91,6 @@ public class DatabaseHelper {
         CREATE_BOOK_1_REQUEST_DTO = createBookRequestDto(BOOK_1);
         BOOK_1_DTO = createBookDto(BOOK_1);
         BOOK_2_DTO = createBookDto(BOOK_2);
-        BOOK_1_DTO_WITHOUT_CATEGORY_ID = createBookDtoWithoutCategoryId(BOOK_1);
         CREATE_CATEGORY_1_REQUEST_DTO = createCategoryRequestDto(CATEGORY_1);
         CATEGORY_1_DTO_WITH_ID = createCategoryDtoWithId(CATEGORY_1);
         CATEGORY_1_DTO = createCategoryDto(CATEGORY_1);
@@ -159,7 +157,7 @@ public class DatabaseHelper {
                 book.getDescription(), book.getCoverImage(), categoriesIds);
     }
 
-    private static BookDtoWithoutCategoryId createBookDtoWithoutCategoryId(Book book) {
+    public static BookDtoWithoutCategoryId createBookDtoWithoutCategoryId(Book book) {
         return new BookDtoWithoutCategoryId(book.getTitle(), book.getAuthor(), book.getIsbn(),
                 book.getPrice(), book.getDescription(), book.getCoverImage());
     }

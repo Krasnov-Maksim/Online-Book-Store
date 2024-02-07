@@ -2,9 +2,9 @@ package mate.academy.bookstore.service;
 
 import static mate.academy.bookstore.config.DatabaseHelper.BOOK_1;
 import static mate.academy.bookstore.config.DatabaseHelper.BOOK_1_DTO;
-import static mate.academy.bookstore.config.DatabaseHelper.BOOK_1_DTO_WITHOUT_CATEGORY_ID;
 import static mate.academy.bookstore.config.DatabaseHelper.BOOK_2;
 import static mate.academy.bookstore.config.DatabaseHelper.CREATE_BOOK_1_REQUEST_DTO;
+import static mate.academy.bookstore.config.DatabaseHelper.createBookDtoWithoutCategoryId;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -197,7 +197,7 @@ class BookServiceTest {
         //Given
         List<Book> bookList = new ArrayList<>();
         bookList.add(BOOK_1);
-        List<BookDtoWithoutCategoryId> expected = List.of(BOOK_1_DTO_WITHOUT_CATEGORY_ID);
+        List<BookDtoWithoutCategoryId> expected = List.of(createBookDtoWithoutCategoryId(BOOK_1));
         when(bookRepository.findAllByCategoriesId(anyLong(), any(Pageable.class)))
                 .thenReturn(bookList);
         when(bookMapper.toDtoWithoutCategories(any(Book.class))).thenReturn(expected.get(0));
