@@ -4,7 +4,7 @@ import static mate.academy.bookstore.config.DatabaseHelper.CATEGORY_1;
 import static mate.academy.bookstore.config.DatabaseHelper.CATEGORY_1_DTO;
 import static mate.academy.bookstore.config.DatabaseHelper.CATEGORY_1_DTO_WITH_ID;
 import static mate.academy.bookstore.config.DatabaseHelper.CREATE_CATEGORY_1_REQUEST_DTO;
-import static mate.academy.bookstore.config.DatabaseHelper.INVALID_CATEGORY_ID;
+import static mate.academy.bookstore.config.DatabaseHelper.INVALID_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -75,12 +75,12 @@ class CategoryServiceTest {
     @Test
     @DisplayName("Verify getById() with invalid id returns exception")
     void getById_InvalidId_ShouldThrowEntityNotFoundException() {
-        when(categoryRepository.findById(INVALID_CATEGORY_ID))
+        when(categoryRepository.findById(INVALID_ID))
                 .thenThrow(new EntityNotFoundException("Can't find category by id "
-                        + INVALID_CATEGORY_ID));
+                        + INVALID_ID));
         EntityNotFoundException entityNotFoundException = assertThrows(
-                EntityNotFoundException.class, () -> categoryService.getById(INVALID_CATEGORY_ID));
-        assertEquals("Can't find category by id " + INVALID_CATEGORY_ID,
+                EntityNotFoundException.class, () -> categoryService.getById(INVALID_ID));
+        assertEquals("Can't find category by id " + INVALID_ID,
                 entityNotFoundException.getMessage());
         assertEquals(EntityNotFoundException.class, entityNotFoundException.getClass());
     }
@@ -128,15 +128,15 @@ class CategoryServiceTest {
         //Given
         CreateCategoryRequestDto categoryDto = new CreateCategoryRequestDto(
                 "Category with invalid id", "Category has invalid id");
-        when(categoryRepository.findById(INVALID_CATEGORY_ID))
+        when(categoryRepository.findById(INVALID_ID))
                 .thenThrow(new EntityNotFoundException("Can't find category by id "
-                        + INVALID_CATEGORY_ID));
+                        + INVALID_ID));
         //When
         EntityNotFoundException entityNotFoundException = assertThrows(
                 EntityNotFoundException.class,
-                () -> categoryService.update(INVALID_CATEGORY_ID, categoryDto));
+                () -> categoryService.update(INVALID_ID, categoryDto));
         //Then
-        assertEquals("Can't find category by id " + INVALID_CATEGORY_ID,
+        assertEquals("Can't find category by id " + INVALID_ID,
                 entityNotFoundException.getMessage());
         assertEquals(EntityNotFoundException.class, entityNotFoundException.getClass());
     }

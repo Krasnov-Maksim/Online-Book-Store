@@ -57,20 +57,20 @@ class AuthenticationControllerIntegrationTest {
                 .webAppContextSetup(applicationContext)
                 .apply(springSecurity())
                 .build();
-        teardown(dataSource);
+        teardown();
     }
 
     @BeforeEach
-    public void setUp() {
-        setupDatabase(dataSource);
+    public void beforeEach() {
+        setupDatabase();
     }
 
     @AfterEach
     public void afterEach() throws SQLException {
-        teardown(dataSource);
+        teardown();
     }
 
-    private void teardown(DataSource dataSource) throws SQLException {
+    private void teardown() throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(connection, new ClassPathResource("sql/controller"
@@ -83,7 +83,7 @@ class AuthenticationControllerIntegrationTest {
     }
 
     @SneakyThrows
-    private void setupDatabase(DataSource dataSource) {
+    private void setupDatabase() {
         try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(connection, new ClassPathResource("sql/controller"

@@ -4,7 +4,7 @@ import static mate.academy.bookstore.config.DatabaseHelper.BOOK_1;
 import static mate.academy.bookstore.config.DatabaseHelper.BOOK_2;
 import static mate.academy.bookstore.config.DatabaseHelper.CATEGORY_1;
 import static mate.academy.bookstore.config.DatabaseHelper.CATEGORY_2;
-import static mate.academy.bookstore.config.DatabaseHelper.INVALID_CATEGORY_ID;
+import static mate.academy.bookstore.config.DatabaseHelper.INVALID_ID;
 import static mate.academy.bookstore.config.DatabaseHelper.createBookDtoWithoutCategoryId;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
@@ -71,21 +71,21 @@ class CategoryControllerIntegrationTest {
                 .webAppContextSetup(applicationContext)
                 .apply(springSecurity())
                 .build();
-        teardown(dataSource);
+        teardown();
     }
 
     @BeforeEach
-    public void setUp() {
-        setupDatabase(dataSource);
+    public void beforeEach() {
+        setupDatabase();
     }
 
     @AfterEach
     public void afterEach() {
-        teardown(dataSource);
+        teardown();
     }
 
     @SneakyThrows
-    private void teardown(DataSource dataSource) {
+    private void teardown() {
         try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(
@@ -103,7 +103,7 @@ class CategoryControllerIntegrationTest {
     }
 
     @SneakyThrows
-    private void setupDatabase(DataSource dataSource) {
+    private void setupDatabase() {
         try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(
@@ -158,8 +158,7 @@ class CategoryControllerIntegrationTest {
 
         MvcResult mvcResult = mockMvc.perform(get("/api/categories")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("page", String.valueOf(
-                                pageable.getPageNumber()))
+                        .param("page", String.valueOf(pageable.getPageNumber()))
                         .param("size", String.valueOf(pageable.getPageSize())))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -195,11 +194,11 @@ class CategoryControllerIntegrationTest {
     @DisplayName("Get category with invalid Id throws exception")
     @WithMockUser(roles = "USER")
     void getBookById_invalidId_ShouldReturnException() throws Exception {
-        mockMvc.perform(get("/api/categories/{id}", INVALID_CATEGORY_ID))
+        mockMvc.perform(get("/api/categories/{id}", INVALID_ID))
                 .andExpect(status().isNotFound())
                 .andReturn();
         assertThrows(EntityNotFoundException.class,
-                () -> categoryService.getById(INVALID_CATEGORY_ID));
+                () -> categoryService.getById(INVALID_ID));
     }
 
     @Test

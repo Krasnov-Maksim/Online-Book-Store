@@ -19,7 +19,7 @@ import mate.academy.bookstore.model.User;
 public class DatabaseHelper {
     public static final Category CATEGORY_1;
     public static final Category CATEGORY_2;
-    public static final Long INVALID_CATEGORY_ID = -1000L;
+    public static final Long INVALID_ID = -1000L;
     public static final Book BOOK_1;
     public static final Book BOOK_2;
     public static final User USER_JOHN;
