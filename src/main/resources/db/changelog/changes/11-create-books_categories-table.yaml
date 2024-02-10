@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: create-users_roles-table
+      id: create-books_categories-table
       author: Krasnov-Maksim
       changes:
         - createTable:
