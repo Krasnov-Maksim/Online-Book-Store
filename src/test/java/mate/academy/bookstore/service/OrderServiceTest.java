@@ -49,10 +49,6 @@ import org.springframework.security.core.Authentication;
 
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
-    private static final Long USER_ID = 1L;
-    private static final Long ORDER_ID = 1L;
-    private static final int CART_ITEM_QTY = 1;
-    private static final Long CART_ITEM_ID = 1L;
     @Mock
     private OrderRepository orderRepository;
     @Mock
