@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-class ShoppingCartServiceImpl implements ShoppingCartService {
+public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final CartItemRepository cartItemRepository;
     private final ShoppingCartRepository shoppingCartRepository;
     private final UserRepository userRepository;

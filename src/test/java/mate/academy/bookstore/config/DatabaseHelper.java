@@ -12,8 +12,10 @@ import mate.academy.bookstore.dto.category.CreateCategoryRequestDto;
 import mate.academy.bookstore.dto.user.UserRegistrationRequestDto;
 import mate.academy.bookstore.dto.user.UserResponseDto;
 import mate.academy.bookstore.model.Book;
+import mate.academy.bookstore.model.CartItem;
 import mate.academy.bookstore.model.Category;
 import mate.academy.bookstore.model.Role;
+import mate.academy.bookstore.model.ShoppingCart;
 import mate.academy.bookstore.model.User;
 
 public class DatabaseHelper {
@@ -96,6 +98,32 @@ public class DatabaseHelper {
         CATEGORY_1_DTO = createCategoryDto(CATEGORY_1);
     }
 
+    public static BookDtoWithoutCategoryId createBookDtoWithoutCategoryId(Book book) {
+        return new BookDtoWithoutCategoryId(book.getTitle(), book.getAuthor(), book.getIsbn(),
+                book.getPrice(), book.getDescription(), book.getCoverImage());
+    }
+
+    public static CartItem createCartItem(Long id, ShoppingCart shoppingCart, Book book,
+                                          int quantity, boolean isDeleted) {
+        CartItem cartItem = new CartItem();
+        cartItem.setId(id);
+        cartItem.setBook(book);
+        cartItem.setShoppingCart(shoppingCart);
+        cartItem.setQuantity(quantity);
+        cartItem.setDeleted(isDeleted);
+        return cartItem;
+    }
+
+    public static ShoppingCart createShoppingCart(Long id, User user, Set<CartItem> cartItems,
+                                                  boolean isDeleted) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setId(id);
+        shoppingCart.setUser(user);
+        shoppingCart.setCartItems(cartItems);
+        shoppingCart.setDeleted(isDeleted);
+        return shoppingCart;
+    }
+
     private static User createUser(Long userId, String userEmail, String userFirstname,
                                    String userLastname, String userPassword,
                                    String shippingAddress, Set<Role> roles) {
@@ -155,11 +183,6 @@ public class DatabaseHelper {
                 .collect(Collectors.toSet());
         return new BookDto(book.getTitle(), book.getAuthor(), book.getIsbn(), book.getPrice(),
                 book.getDescription(), book.getCoverImage(), categoriesIds);
-    }
-
-    public static BookDtoWithoutCategoryId createBookDtoWithoutCategoryId(Book book) {
-        return new BookDtoWithoutCategoryId(book.getTitle(), book.getAuthor(), book.getIsbn(),
-                book.getPrice(), book.getDescription(), book.getCoverImage());
     }
 
     private static CategoryDtoWithId createCategoryDtoWithId(Category category) {
