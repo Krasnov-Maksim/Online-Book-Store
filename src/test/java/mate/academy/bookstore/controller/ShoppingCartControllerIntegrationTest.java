@@ -21,7 +21,6 @@ import mate.academy.bookstore.dto.cartitem.CartItemDto;
 import mate.academy.bookstore.dto.cartitem.CartItemQuantityDto;
 import mate.academy.bookstore.dto.cartitem.CreateCartItemRequestDto;
 import mate.academy.bookstore.dto.shoppingcart.ShoppingCartDto;
-import mate.academy.bookstore.service.BookService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -118,7 +117,7 @@ class ShoppingCartControllerIntegrationTest {
 
     @Test
     @DisplayName("Add item to shopping cart by wrong user name")
-    void addItemToShoppingCart_InvalidAuthentication_CartNotFound() throws Exception {
+    void addItemToShoppingCart_InvalidAuthentication_NotFound() throws Exception {
         CreateCartItemRequestDto createCartItemRequestDto =
                 new CreateCartItemRequestDto(BOOK_1.getId(), 100);
         String jsonRequest = objectMapper.writeValueAsString(createCartItemRequestDto);
