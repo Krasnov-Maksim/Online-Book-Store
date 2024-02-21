@@ -3,7 +3,7 @@ name: online-book-store-application
 services:
   mysqldb:
     container_name: mysqldb
-    image: mysql:8.0.36-oracle
+    image: mysql:5.7.34
     restart: unless-stopped
     env_file:
       - ./.env

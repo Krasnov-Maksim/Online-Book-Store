@@ -34,7 +34,7 @@ public class BookController {
     @Operation(summary = "Get all books", description = "Get a list of all books")
     @Parameter(name = "page", description = "page index, default value = 0")
     @Parameter(name = "size", description = "elements per page, default value = 20")
-    @Parameter(name = "sort", description = "sort criteria", example = "sort=title,Desc")
+    @Parameter(name = "sort", description = "sort criteria", example = "title,Desc")
     @GetMapping
     public List<BookDto> getAll(Pageable pageable) {
         return bookService.findAll(pageable);

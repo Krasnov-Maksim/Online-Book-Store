@@ -1,1 +1,3 @@
-DELETE FROM categories;
+DELETE
+FROM categories;
+

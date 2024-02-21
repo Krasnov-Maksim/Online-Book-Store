@@ -33,6 +33,15 @@ public class Role implements GrantedAuthority {
 
     public enum RoleName {
         ROLE_USER,
-        ROLE_ADMIN
+        ROLE_ADMIN;
+
+        public String getShortName() {
+            String name = name();
+            int idx = name.indexOf('_');
+            if (idx > -1) {
+                return name.substring(idx + 1);
+            }
+            return name();
+        }
     }
 }
