@@ -21,6 +21,7 @@ import mate.academy.bookstore.dto.cartitem.CartItemDto;
 import mate.academy.bookstore.dto.cartitem.CartItemQuantityDto;
 import mate.academy.bookstore.dto.cartitem.CreateCartItemRequestDto;
 import mate.academy.bookstore.dto.shoppingcart.ShoppingCartDto;
+import mate.academy.bookstore.model.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -103,7 +104,7 @@ class ShoppingCartControllerIntegrationTest {
                                 .content(jsonRequest)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .with(user(USER_JOHN.getEmail()).password(USER_JOHN.getPassword())
-                                        .roles("USER")
+                                        .roles(Role.RoleName.ROLE_USER.getShortName())
                                 )
                 )
                 .andExpect(status().isOk())
@@ -126,7 +127,7 @@ class ShoppingCartControllerIntegrationTest {
                                 .content(jsonRequest)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .with(user("wrong-user-name")
-                                        .roles("USER")
+                                        .roles(Role.RoleName.ROLE_USER.getShortName())
                                 )
                 )
                 .andExpect(status().isNotFound())
@@ -140,7 +141,7 @@ class ShoppingCartControllerIntegrationTest {
                         delete("/api/cart/cart-items/{cartItemId}", 1L)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .with(user(USER_JOHN.getEmail()).password(USER_JOHN.getPassword())
-                                        .roles("USER")
+                                        .roles(Role.RoleName.ROLE_USER.getShortName())
                                 )
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -159,7 +160,7 @@ class ShoppingCartControllerIntegrationTest {
                                 .content(jsonRequest)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .with(user(USER_JOHN.getEmail()).password(USER_JOHN.getPassword())
-                                        .roles("USER")
+                                        .roles(Role.RoleName.ROLE_USER.getShortName())
                                 )
                 )
                 .andExpect(status().isOk())
@@ -179,7 +180,7 @@ class ShoppingCartControllerIntegrationTest {
                                 .content(jsonRequest)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .with(user(USER_JOHN.getEmail()).password(USER_JOHN.getPassword())
-                                        .roles("USER")
+                                        .roles(Role.RoleName.ROLE_USER.getShortName())
                                 )
                 )
                 .andExpect(status().isNotFound())

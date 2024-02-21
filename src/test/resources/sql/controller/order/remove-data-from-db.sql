@@ -1,19 +1,29 @@
-DELETE FROM users_roles;
+DELETE
+FROM users_roles;
 
-DELETE FROM roles ;
+DELETE
+FROM roles;
 
-DELETE FROM cart_items;
+DELETE
+FROM cart_items;
 
-DELETE FROM shopping_carts;
+DELETE
+FROM shopping_carts;
 
-DELETE FROM books_categories;
+DELETE
+FROM books_categories;
 
-DELETE FROM categories;
+DELETE
+FROM categories;
 
-DELETE FROM order_items;
+DELETE
+FROM order_items;
 
-DELETE FROM orders;
+DELETE
+FROM orders;
 
-DELETE FROM books;
+DELETE
+FROM books;
 
-DELETE FROM users;
+DELETE
+FROM users;

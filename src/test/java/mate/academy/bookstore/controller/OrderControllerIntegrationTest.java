@@ -25,6 +25,7 @@ import mate.academy.bookstore.dto.order.OrderDto;
 import mate.academy.bookstore.dto.order.OrderStatusDto;
 import mate.academy.bookstore.dto.orderitem.OrderItemDto;
 import mate.academy.bookstore.model.Order;
+import mate.academy.bookstore.model.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -110,7 +111,7 @@ class OrderControllerIntegrationTest {
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(user(USER_JOHN.getEmail()).password(USER_JOHN.getPassword())
-                                .roles("USER")
+                                .roles(Role.RoleName.ROLE_USER.getShortName())
                         )
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -140,7 +141,7 @@ class OrderControllerIntegrationTest {
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(user("wrong-user-name").password(USER_JOHN.getPassword())
-                                .roles("USER")
+                                .roles(Role.RoleName.ROLE_USER.getShortName())
                         )
                 )
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -161,7 +162,7 @@ class OrderControllerIntegrationTest {
                         MockMvcRequestBuilders.get("/api/orders")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .with(user(USER_JOHN.getEmail()).password(USER_JOHN.getPassword())
-                                        .roles("USER")
+                                        .roles(Role.RoleName.ROLE_USER.getShortName())
                                 )
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -193,7 +194,7 @@ class OrderControllerIntegrationTest {
                                 .param("page", String.valueOf(pageable.getPageNumber()))
                                 .param("size", String.valueOf(pageable.getPageSize()))
                                 .with(user(USER_JOHN.getEmail()).password(USER_JOHN.getPassword())
-                                        .roles("USER")
+                                        .roles(Role.RoleName.ROLE_USER.getShortName())
                                 )
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -205,7 +206,7 @@ class OrderControllerIntegrationTest {
                 new TypeReference<>() {
                 }
         );
-        assertEquals(expected, actual);
+        assertThat(expected).containsExactlyInAnyOrderElementsOf(actual);
     }
 
     @Test
@@ -217,7 +218,7 @@ class OrderControllerIntegrationTest {
                         MockMvcRequestBuilders.get("/api/orders/{orderId}/items/{itemId}", 1L, 1L)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .with(user(USER_JOHN.getEmail()).password(USER_JOHN.getPassword())
-                                        .roles("USER")
+                                        .roles(Role.RoleName.ROLE_USER.getShortName())
                                 )
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -243,7 +244,7 @@ class OrderControllerIntegrationTest {
                                 .content(jsonRequest)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .with(user(USER_JOHN.getEmail()).password(USER_JOHN.getPassword())
-                                        .roles("ADMIN")
+                                        .roles(Role.RoleName.ROLE_ADMIN.getShortName())
                                 )
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())

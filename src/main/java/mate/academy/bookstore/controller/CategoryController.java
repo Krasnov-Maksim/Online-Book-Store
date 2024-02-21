@@ -37,7 +37,7 @@ public class CategoryController {
     @Operation(summary = "Get all categories", description = "Get a list of all categories")
     @Parameter(name = "page", description = "page index, default value = 0")
     @Parameter(name = "size", description = "elements per page, default value = 20")
-    @Parameter(name = "sort", description = "sort criteria", example = "sort=name,Desc")
+    @Parameter(name = "sort", description = "sort criteria", example = "name,Desc")
     @GetMapping
     public List<CategoryDtoWithId> getAll(Pageable pageable) {
         return categoryService.findAll(pageable);

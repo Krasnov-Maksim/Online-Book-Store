@@ -1,2 +1,3 @@
 DELETE
 FROM users;
+
